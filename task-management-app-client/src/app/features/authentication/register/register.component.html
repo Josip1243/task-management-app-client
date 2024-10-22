@@ -1,0 +1,40 @@
+<div class="register-container">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <h1>Register:</h1>
+        <div>
+            <mat-form-field>
+                <mat-label>First name</mat-label>
+                <input matInput placeholder="Ex. John" formControlName="firstName">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Last name</mat-label>
+                <input matInput placeholder="Ex. Johnson" formControlName="lastName">
+            </mat-form-field>
+
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input type="email" matInput placeholder="example@example.com" formControlName="email">
+                <mat-error>{{ getErrorMessage('email') }}</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input type="password" matInput placeholder="password" formControlName="password">
+                <mat-error>{{ getErrorMessage('password') }}</mat-error>
+            </mat-form-field>    
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Repeat password</mat-label>
+                <input type="password" matInput placeholder="password" formControlName="repeatedPassword">
+                <mat-error>{{ getErrorMessage('repeatedPassword') }}</mat-error>
+            </mat-form-field>    
+        </div>
+        <button type="submit" mat-raised-button color="primary" [disabled]="registerForm.invalid">LOGIN</button>
+    </form>
+  </div>
+  
