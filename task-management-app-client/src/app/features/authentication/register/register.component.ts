@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -29,15 +30,18 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class RegisterComponent {
   registerForm!: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.registerForm = this.formBuilder.group(
       {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
+        username: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         password: ['', Validators.required],
         repeatedPassword: ['', Validators.required],
@@ -48,15 +52,26 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      const { firstName, lastName, email, password, repeatedPassword } =
+      const { firstName, lastName, username, email, password } =
         this.registerForm.value;
-      this.authService.register(
-        firstName,
-        lastName,
-        email,
-        password,
-        repeatedPassword
-      );
+      this.authService
+        .register({
+          firstName,
+          lastName,
+          username,
+          email,
+          password,
+        })
+        .subscribe({
+          next: () => {
+            this.registerForm.reset();
+            this.router.navigateByUrl('login');
+          },
+          error: (error) => {
+            console.log('Register failed: ' + error.message);
+            this.registerForm.reset();
+          },
+        });
     }
   }
 

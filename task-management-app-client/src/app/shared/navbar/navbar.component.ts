@@ -1,19 +1,25 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
-  // animations: [
-  //   trigger('fadeIn', [
-  //     transition(':enter', [
-  //       style({ opacity: 0 }), // Start with opacity 0
-  //       animate('5000ms', style({ opacity: 1 })), // Fade to opacity 1
-  //     ]),
-  //   ]),
-  // ],
 })
-export class NavbarComponent {}
+export class NavbarComponent implements OnInit {
+  isLoggedIn: boolean = false;
+  userRole: string = '';
+
+  constructor(public authService: AuthService) {}
+
+  ngOnInit(): void {
+    // this.authService.isLogged.subscribe((logged) => {
+    //   this.isLoggedIn = logged;
+    // });
+    // this.authService.checkStatus();
+  }
+}

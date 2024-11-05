@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Route, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Route,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard  {
+export class AuthGuard {
   loggedIn: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {
     this.authService.isLogged.subscribe((logged) => {
       this.loggedIn = logged;
     });
+    debugger;
   }
 
   canActivate(
@@ -23,6 +30,7 @@ export class AuthGuard  {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    debugger;
     this.authService.checkStatus();
 
     if (this.loggedIn) {

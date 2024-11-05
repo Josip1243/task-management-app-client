@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -26,10 +27,12 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class LoginComponent {
   loginForm!: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -39,8 +42,22 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      this.authService.login(username, password);
+      const { email, password } = this.loginForm.value;
+      this.authService.login({ email, password }).subscribe({
+        next: (tokenDTO) => {
+          this.loginForm.reset();
+          this.authService.storeAccessToken(tokenDTO.token);
+          this.router.navigateByUrl('home');
+        },
+        error: (error) => {
+          if (error.status === 401) {
+            this.errorMessage = error.message;
+          } else {
+            this.errorMessage = 'An unexpected error occurred';
+          }
+          console.error('Login failed:', this.errorMessage);
+        },
+      });
     }
   }
 

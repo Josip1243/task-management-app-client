@@ -1,16 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { User } from '../../shared/models/user.model';
+import {
+  BehaviorSubject,
+  delay,
+  empty,
+  Observable,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
+import { RegisterUser, User } from '../../shared/models/user.model';
 import { TokenDTO } from '../../shared/models/tokenDTO.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  baseUrl = 'http://localhost:5220/';
+  baseUrl = 'http://localhost:5297/';
 
   private logged = new BehaviorSubject<boolean>(false);
   isLogged = this.logged.asObservable();
@@ -19,18 +28,32 @@ export class AuthService {
   username = this.usernameBehaviorSubject.asObservable();
   userId = this.userIdBehaviorSubject.asObservable();
 
+  private fakeToken = '1234567890abcdef';
+
   constructor(private http: HttpClient, private router: Router) {}
 
-  public register(user: User): Observable<any> {
+  public register(user: RegisterUser): Observable<any> {
     return this.http.post(this.baseUrl + 'api/auth/register', user);
+
+    // // For developing
+    // if (user.email === 'test@test' && user.password === 'test') {
+    // }
+    // return of(this.fakeToken).pipe(delay(1000));
   }
 
   public login(user: User): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'api/auth/login', user).pipe(
+    return this.http.post<any>(this.baseUrl + 'api/Auth/login', user).pipe(
       tap(() => {
         this.logged.next(true);
       })
     );
+
+    // For developing
+    // if (user.email === 'test@test' && user.password === 'test') {
+    //   return of(this.fakeToken).pipe(delay(1000));
+    // }
+    // const error = { status: 401, message: 'Invalid username or password' };
+    // return throwError(error).pipe(delay(1000));
   }
 
   public logout(page: string) {
@@ -44,6 +67,7 @@ export class AuthService {
       this.logged.next(true);
     } else {
       this.logged.next(false);
+      return;
     }
 
     if (this.getAccessToken()) {
@@ -55,6 +79,8 @@ export class AuthService {
       this.userIdBehaviorSubject.next(userId);
     }
   }
+
+  isAdmin() {}
 
   storeAccessToken(tokenValue: string) {
     localStorage.setItem('token', tokenValue);
