@@ -13,7 +13,6 @@ import {
 import { RegisterUser, User } from '../../shared/models/user.model';
 import { TokenDTO } from '../../shared/models/tokenDTO.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { error } from 'console';
 
 @Injectable({
   providedIn: 'root',

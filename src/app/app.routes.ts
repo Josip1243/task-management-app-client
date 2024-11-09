@@ -13,7 +13,6 @@ import { TaskListComponent } from './features/task/task-list/task-list.component
 import { TaskDetailComponent } from './features/task/task-detail/task-detail.component';
 import { ProcessCreateComponent } from './features/process/process-create/process-create.component';
 import { TaskCreateComponent } from './features/task/task-create/task-create.component';
-import path from 'node:path';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
