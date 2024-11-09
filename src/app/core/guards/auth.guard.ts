@@ -30,7 +30,6 @@ export class AuthGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    debugger;
     this.authService.checkStatus();
 
     if (this.loggedIn) {

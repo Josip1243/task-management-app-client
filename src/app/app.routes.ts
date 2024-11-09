@@ -13,6 +13,7 @@ import { TaskListComponent } from './features/task/task-list/task-list.component
 import { TaskDetailComponent } from './features/task/task-detail/task-detail.component';
 import { ProcessCreateComponent } from './features/process/process-create/process-create.component';
 import { TaskCreateComponent } from './features/task/task-create/task-create.component';
+import path from 'node:path';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,7 +23,7 @@ export const routes: Routes = [
   {
     path: 'process',
     component: ProcessComponent,
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       { path: 'list', component: ProcessListComponent },
       { path: 'create', component: ProcessCreateComponent },
@@ -32,11 +33,19 @@ export const routes: Routes = [
   {
     path: 'task',
     component: TaskComponent,
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       { path: 'list', component: TaskListComponent },
       { path: 'create', component: TaskCreateComponent },
       { path: 'detail/:id', component: TaskDetailComponent },
     ],
+  },
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: '**',
+    component: HomeComponent,
   },
 ];

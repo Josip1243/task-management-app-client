@@ -72,15 +72,44 @@ export class AuthService {
 
     if (this.getAccessToken()) {
       let token = this.decodedToken();
-      let username =
-        token['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
-      let userId = Number(token['Id']);
-      this.usernameBehaviorSubject.next(username);
-      this.userIdBehaviorSubject.next(userId);
+      // let username =
+      //   token['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+      // let userId = Number(token['Id']);
+      // this.usernameBehaviorSubject.next(username);
+      // this.userIdBehaviorSubject.next(userId);
     }
   }
 
-  isAdmin() {}
+  isAdmin() {
+    if (!this.roleExists()) {
+      return false;
+    }
+
+    let role = localStorage.getItem('role');
+    if (role === 'admin') {
+      return true;
+    }
+    return false;
+  }
+
+  isWorker() {
+    if (!this.roleExists()) {
+      return false;
+    }
+
+    let role = localStorage.getItem('role');
+    if (role === 'worker') {
+      return true;
+    }
+    return false;
+  }
+
+  private roleExists() {
+    if (localStorage.getItem('role')) {
+      return true;
+    }
+    return false;
+  }
 
   storeAccessToken(tokenValue: string) {
     localStorage.setItem('token', tokenValue);
