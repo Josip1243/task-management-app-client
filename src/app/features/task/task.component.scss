@@ -1,0 +1,26 @@
+.container {
+  background-color: lightgray;
+  padding: 10px;
+}
+
+.links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
+  li {
+    a {
+      text-decoration: none;
+      color: black;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #007bff;
+      }
+    }
+    padding: 10px;
+  }
+}

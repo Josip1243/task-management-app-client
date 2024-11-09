@@ -24,7 +24,7 @@
   </section>
 
   <!-- Call to Action Buttons -->
-  <div class="cta-buttons" *ngIf="isLoggedIn">
+  <div class="cta-buttons" *ngIf="!isLoggedIn">
     <button matinput (click)="navigateToLogin()" class="btn primary">
       Login
     </button>

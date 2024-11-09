@@ -1,50 +1,126 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './features/authentication/login/login.component';
-import { RegisterComponent } from './features/authentication/register/register.component';
-import { HomeComponent } from './features/home/home.component';
-import { AboutUsComponent } from './features/home/about-us/about-us/about-us.component';
-import { ContactComponent } from './features/home/contact/contact/contact.component';
-import { ProcessListComponent } from './features/process/process-list/process-list.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { ProcessDetailComponent } from './features/process/process-detail/process-detail.component';
-import { ProcessComponent } from './features/process/process.component';
-import { TaskComponent } from './features/task/task.component';
-import { TaskListComponent } from './features/task/task-list/task-list.component';
-import { TaskDetailComponent } from './features/task/task-detail/task-detail.component';
-import { ProcessCreateComponent } from './features/process/process-create/process-create.component';
-import { TaskCreateComponent } from './features/task/task-create/task-create.component';
+import { WorkerGuard } from './core/guards/worker.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'about', component: AboutUsComponent },
-  { path: 'contact', component: ContactComponent },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./features/authentication/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/authentication/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
+  },
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./features/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'about',
+    loadComponent: () =>
+      import('./features/home/about-us/about-us.component').then(
+        (m) => m.AboutUsComponent
+      ),
+  },
+  {
+    path: 'contact',
+    loadComponent: () =>
+      import('./features/home/contact/contact.component').then(
+        (m) => m.ContactComponent
+      ),
+  },
   {
     path: 'process',
-    component: ProcessComponent,
-    canActivateChild: [AuthGuard],
+    loadComponent: () =>
+      import('./features/process/process.component').then(
+        (m) => m.ProcessComponent
+      ),
+    canActivate: [AuthGuard],
     children: [
-      { path: 'list', component: ProcessListComponent },
-      { path: 'create', component: ProcessCreateComponent },
-      { path: 'detail/:id', component: ProcessDetailComponent },
+      {
+        path: 'list',
+        loadComponent: () =>
+          import('./features/process/process-list/process-list.component').then(
+            (m) => m.ProcessListComponent
+          ),
+      },
+      {
+        path: 'create',
+        loadComponent: () =>
+          import(
+            './features/process/process-create/process-create.component'
+          ).then((m) => m.ProcessCreateComponent),
+        canActivate: [WorkerGuard],
+      },
+      {
+        path: 'detail/:id',
+        loadComponent: () =>
+          import(
+            './features/process/process-detail/process-detail.component'
+          ).then((m) => m.ProcessDetailComponent),
+      },
+      {
+        path: 'edit/:id',
+        loadComponent: () =>
+          import('./features/process/process-edit/process-edit.component').then(
+            (m) => m.ProcessEditComponent
+          ),
+        canActivate: [WorkerGuard],
+      },
     ],
   },
   {
     path: 'task',
-    component: TaskComponent,
-    canActivateChild: [AuthGuard],
+    loadComponent: () =>
+      import('./features/task/task.component').then((m) => m.TaskComponent),
+    canActivate: [AuthGuard],
     children: [
-      { path: 'list', component: TaskListComponent },
-      { path: 'create', component: TaskCreateComponent },
-      { path: 'detail/:id', component: TaskDetailComponent },
+      {
+        path: 'list',
+        loadComponent: () =>
+          import('./features/task/task-list/task-list.component').then(
+            (m) => m.TaskListComponent
+          ),
+      },
+      {
+        path: 'create',
+        loadComponent: () =>
+          import('./features/task/task-create/task-create.component').then(
+            (m) => m.TaskCreateComponent
+          ),
+        canActivate: [WorkerGuard],
+      },
+      {
+        path: 'detail/:id',
+        loadComponent: () =>
+          import('./features/task/task-detail/task-detail.component').then(
+            (m) => m.TaskDetailComponent
+          ),
+      },
+      {
+        path: 'edit/:id',
+        loadComponent: () =>
+          import('./features/task/task-edit/task-edit.component').then(
+            (m) => m.TaskEditComponent
+          ),
+        canActivate: [WorkerGuard],
+      },
     ],
   },
   {
     path: '',
-    component: HomeComponent,
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
   {
     path: '**',
-    component: HomeComponent,
+    redirectTo: 'home',
   },
 ];

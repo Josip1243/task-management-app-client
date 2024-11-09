@@ -25,6 +25,7 @@
     .nav-links {
       display: flex;
       list-style: none;
+      align-items: center;
 
       li {
         margin-left: 20px;
@@ -41,4 +42,9 @@
         }
       }
     }
+  }
+
+  .menuButton {
+    background: none;
+    color: white;
   }

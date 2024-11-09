@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  Route,
   Router,
   RouterStateSnapshot,
   UrlTree,
@@ -12,14 +11,8 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard {
-  loggedIn: boolean = false;
-
-  constructor(private authService: AuthService, private router: Router) {
-    this.authService.isLogged.subscribe((logged) => {
-      this.loggedIn = logged;
-    });
-  }
+export class WorkerGuard {
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -29,9 +22,7 @@ export class AuthGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    this.authService.checkStatus();
-
-    if (this.loggedIn) {
+    if (this.authService.isWorker()) {
       return true;
     }
     this.router.navigate(['home']);

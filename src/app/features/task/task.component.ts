@@ -1,10 +1,20 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [RouterOutlet],
-  template: '<router-outlet></router-outlet>',
+  imports: [RouterModule, CommonModule],
+  templateUrl: './task.component.html',
+  styleUrl: './task.component.scss',
 })
-export class TaskComponent {}
+export class TaskComponent implements OnInit {
+  isOwner: boolean = false;
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.isOwner = this.authService.isOwner();
+  }
+}

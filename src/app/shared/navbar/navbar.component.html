@@ -1,11 +1,36 @@
-<nav *ngIf="!isLoggedIn" class="navbar">
+<nav class="navbar">
   <div class="logo">
     <!-- <img src="assets/logo.png" alt="TaskMaster Pro Logo"> -->
-    <span>TaskMaster 3000</span>
+    <span>TaskMaster</span>
   </div>
   <ul class="nav-links">
     <li><a href="#">Home</a></li>
     <li><a href="about">About Us</a></li>
     <li><a href="contact">Contact</a></li>
+    <li>
+      <button
+        class="menuButton"
+        mat-raised-button
+        [matMenuTriggerFor]="userMenu"
+        *ngIf="isLoggedIn"
+      >
+        <div>
+          <mat-icon>account_circle</mat-icon>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </div>
+      </button>
+    </li>
   </ul>
 </nav>
+
+<mat-menu #userMenu="matMenu" xPosition="before">
+  <button mat-menu-item (click)="redirectTo('process')">
+    Process<mat-icon>build_circle</mat-icon>
+  </button>
+  <button mat-menu-item (click)="redirectTo('task')">
+    Task<mat-icon>task</mat-icon>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    Logout<mat-icon>logout</mat-icon>
+  </button>
+</mat-menu>

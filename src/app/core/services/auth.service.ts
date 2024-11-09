@@ -79,6 +79,14 @@ export class AuthService {
     }
   }
 
+  isLoggedIn() {
+    if (localStorage.getItem('token')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   isAdmin() {
     if (!this.roleExists()) {
       return false;
@@ -91,7 +99,25 @@ export class AuthService {
     return false;
   }
 
+  isOwner() {
+    // For developing only
+    return true;
+
+    if (!this.roleExists()) {
+      return false;
+    }
+
+    let role = localStorage.getItem('role');
+    if (role === 'owner') {
+      return true;
+    }
+    return false;
+  }
+
   isWorker() {
+    // For developing only
+    return true;
+
     if (!this.roleExists()) {
       return false;
     }
