@@ -9,60 +9,61 @@ import { delay, Observable, of } from 'rxjs';
 export class ProcessService {
   baseUrl = 'http://localhost:5297/';
 
-  constructor(private http: HttpClient) {}
-
-  getProcess(id: number): Observable<Process> {
-    //return this.http.get<Process>(this.baseUrl + `api/projects/${id}`);
-
-    const mockData: Process = {
+  mockData: Process[] = [
+    {
       id: 1,
       name: 'Proc1',
       description: 'Test',
       startDate: new Date('2024-11-01'),
       endDate: new Date('2024-11-10'),
-    };
+    },
+    {
+      id: 2,
+      name: 'Proc2',
+      description: 'Test',
+      startDate: new Date('2024-11-01'),
+      endDate: new Date('2024-11-10'),
+    },
+    {
+      id: 3,
+      name: 'Proc3',
+      description: 'Test',
+      startDate: new Date('2024-11-01'),
+      endDate: new Date('2024-11-10'),
+    },
+  ];
 
-    return of(mockData).pipe(delay(1000));
+  constructor(private http: HttpClient) {}
+
+  getProcess(id: number): Observable<Process> {
+    //return this.http.get<Process>(this.baseUrl + `api/projects/${id}`);
+
+    return of(this.mockData.find((p) => p.id == id)!);
   }
 
   public getProcesses(): Observable<Process[]> {
     //return this.http.get<Process[]>(this.baseUrl + 'api/projects');
 
-    const mockData: Process[] = [
-      {
-        id: 1,
-        name: 'Proc1',
-        description: 'Test',
-        startDate: new Date('2024-11-01'),
-        endDate: new Date('2024-11-10'),
-      },
-      {
-        id: 2,
-        name: 'Proc2',
-        description: 'Test',
-        startDate: new Date('2024-11-01'),
-        endDate: new Date('2024-11-10'),
-      },
-      {
-        id: 3,
-        name: 'Proc3',
-        description: 'Test',
-        startDate: new Date('2024-11-01'),
-        endDate: new Date('2024-11-10'),
-      },
-    ];
-    return of(mockData).pipe(delay(1000));
+    return of(this.mockData);
   }
 
   public createProcess(process: ProcessDTO) {
     return this.http.post(this.baseUrl + 'api/projects/create', process);
   }
 
-  public updateProcess(id: number, process: ProcessDTO) {
-    return this.http.put(this.baseUrl + `api/projects/update/${id}`, process);
+  public updateProcess(id: number, process: ProcessDTO): Observable<Process> {
+    //return this.http.put(this.baseUrl + `api/projects/update/${id}`, process);
+    let temp = this.mockData.find((p) => p.id == id)!;
+    temp.name = process.name;
+    return of(temp);
   }
 
   public deleteProcess(id: number) {
-    return this.http.delete(this.baseUrl + `api/projects/update/${id}`);
+    //return this.http.delete(this.baseUrl + `api/projects/update/${id}`);
+
+    this.mockData = this.mockData.filter((p) => p.id !== id);
+
+    console.log(this.mockData);
+    return of();
   }
 }
