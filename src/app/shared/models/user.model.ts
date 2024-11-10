@@ -1,11 +1,11 @@
-export class User {
-  email = '';
-  password = '';
+export interface User {
+  email: string;
+  password: string;
 }
-export class RegisterUser {
-  firstName = '';
-  lastName = '';
-  username = '';
-  email = '';
-  password = '';
+export interface RegisterUser {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
 }

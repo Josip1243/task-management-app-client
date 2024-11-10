@@ -17,9 +17,9 @@ import {
   filter,
   take,
 } from 'rxjs';
-import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { TokenDTO } from '../../shared/models/tokenDTO.model';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

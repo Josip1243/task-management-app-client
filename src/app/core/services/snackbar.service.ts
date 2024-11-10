@@ -9,7 +9,7 @@ export class SnackbarService {
 
   showSnackbar(message: string, type: 'error' | 'info' | 'success') {
     this.snackBar.open(message, 'Dismiss', {
-      duration: 3000, // Display for 3 seconds
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: [type + '-snackbar'],
