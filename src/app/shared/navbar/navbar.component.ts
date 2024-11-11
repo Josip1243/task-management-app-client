@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
   userRole: string = '';
 
   constructor(public authService: AuthService, private router: Router) {}
@@ -25,6 +26,9 @@ export class NavbarComponent implements OnInit {
       this.isLoggedIn = logged;
     });
     this.authService.checkStatus();
+    //TODO
+    //this.isAdmin = this.authService.isAdmin();
+    this.isAdmin = true;
   }
 
   redirectTo(path: string) {

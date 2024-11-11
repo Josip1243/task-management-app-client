@@ -1,0 +1,33 @@
+.container {
+  padding: 20px;
+}
+
+.process-card {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.task-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+mat-header-cell,
+mat-cell {
+  padding: 8px;
+}
+
+mat-icon {
+  vertical-align: middle;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+  background-color: rgb(231, 231, 231);
+  cursor: pointer;
+}
+
+.mat-mdc-row:active .mat-mdc-cell {
+  background-color: lightgray;
+}

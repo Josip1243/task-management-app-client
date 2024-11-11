@@ -1,1 +1,23 @@
-<p>task-detail works!</p>
+<mat-card *ngIf="task" class="task-detail-card">
+  <mat-card-header>
+    <mat-card-title>{{ task.name }}</mat-card-title>
+    <mat-card-subtitle>Task ID: {{ task.id }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p><strong>Description:</strong> {{ task.description }}</p>
+    <p>
+      <strong>Status:</strong> {{ task.isCompleted ? "Completed" : "Pending" }}
+    </p>
+    <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
+    <p>
+      <strong>Assigned Users:</strong> {{ task.assignedUserIds.join(", ") }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="toggleTaskCompletion()">
+      <mat-icon *ngIf="task.isCompleted">cancel</mat-icon>
+      <mat-icon *ngIf="!task.isCompleted">check_circle</mat-icon>
+      {{ task.isCompleted ? "Mark as Incomplete" : "Mark as Completed" }}
+    </button>
+  </mat-card-actions>
+</mat-card>

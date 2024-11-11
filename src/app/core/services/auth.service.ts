@@ -22,22 +22,11 @@ export class AuthService {
 
   private logged = new BehaviorSubject<boolean>(false);
   isLogged = this.logged.asObservable();
-  private usernameBehaviorSubject = new BehaviorSubject<string>('');
-  private userIdBehaviorSubject = new BehaviorSubject<number>(-1);
-  username = this.usernameBehaviorSubject.asObservable();
-  userId = this.userIdBehaviorSubject.asObservable();
-
-  private fakeToken = '1234567890abcdef';
 
   constructor(private http: HttpClient, private router: Router) {}
 
   public register(user: RegisterUser): Observable<any> {
     return this.http.post(this.baseUrl + 'api/auth/register', user);
-
-    // // For developing
-    // if (user.email === 'test@test' && user.password === 'test') {
-    // }
-    // return of(this.fakeToken).pipe(delay(1000));
   }
 
   public login(user: User): Observable<any> {
@@ -46,13 +35,6 @@ export class AuthService {
         this.logged.next(true);
       })
     );
-
-    // For developing
-    // if (user.email === 'test@test' && user.password === 'test') {
-    //   return of(this.fakeToken).pipe(delay(1000));
-    // }
-    // const error = { status: 401, message: 'Invalid username or password' };
-    // return throwError(error).pipe(delay(1000));
   }
 
   public logout(page: string) {

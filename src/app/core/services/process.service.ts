@@ -31,7 +31,23 @@ export class ProcessService {
       startDate: new Date('2024-11-01'),
       endDate: new Date('2024-11-10'),
     },
+    {
+      id: 4,
+      name: 'Proc4',
+      description: 'Test',
+      startDate: new Date('2024-11-01'),
+      endDate: new Date('2024-11-10'),
+    },
+    {
+      id: 5,
+      name: 'Proc5',
+      description: 'Test',
+      startDate: new Date('2024-11-01'),
+      endDate: new Date('2024-11-10'),
+    },
   ];
+
+  counter = this.mockData.length;
 
   constructor(private http: HttpClient) {}
 
@@ -48,11 +64,24 @@ export class ProcessService {
   }
 
   public createProcess(process: ProcessDTO) {
-    return this.http.post(this.baseUrl + 'api/projects/create', process);
+    //return this.http.post(this.baseUrl + 'api/projects/create', process);
+
+    this.counter++;
+    let newProcess = {
+      id: this.counter,
+      name: process.name,
+      description: process.description,
+      startDate: process.startDate,
+      endDate: process.endDate,
+    };
+    this.mockData.push(newProcess);
+
+    return of(newProcess);
   }
 
   public updateProcess(id: number, process: ProcessDTO): Observable<Process> {
     //return this.http.put(this.baseUrl + `api/projects/update/${id}`, process);
+
     let temp = this.mockData.find((p) => p.id == id)!;
     temp.name = process.name;
     return of(temp);
@@ -62,7 +91,6 @@ export class ProcessService {
     //return this.http.delete(this.baseUrl + `api/projects/update/${id}`);
 
     this.mockData = this.mockData.filter((p) => p.id !== id);
-
     console.log(this.mockData);
     return of();
   }

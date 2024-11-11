@@ -30,6 +30,9 @@
   <button mat-menu-item (click)="redirectTo('task')">
     Task<mat-icon>task</mat-icon>
   </button>
+  <button *ngIf="isAdmin" mat-menu-item (click)="redirectTo('admin')">
+    Admin<mat-icon>verified_user</mat-icon>
+  </button>
   <button mat-menu-item (click)="logout()">
     Logout<mat-icon>logout</mat-icon>
   </button>

@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ProcessDTO } from '../../../shared/models/process.model';
 import { CommonModule } from '@angular/common';
+import { ProcessService } from '../../../core/services/process.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-process-create',
@@ -31,7 +33,11 @@ import { CommonModule } from '@angular/common';
 export class ProcessCreateComponent {
   processForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private processService: ProcessService,
+    private router: Router
+  ) {
     this.processForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -43,7 +49,11 @@ export class ProcessCreateComponent {
   onSubmit() {
     if (this.processForm.valid) {
       const process: ProcessDTO = this.processForm.value;
-      console.log(process);
+      this.processService.createProcess(process).subscribe({
+        next: (proc) => {
+          this.router.navigate(['process/list']);
+        },
+      });
     }
   }
 }

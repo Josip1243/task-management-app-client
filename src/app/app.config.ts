@@ -10,6 +10,8 @@ import {
 } from '@angular/common/http';
 import { SpinnerInterceptor } from './core/interceptors/spinner.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from './shared/models/date-format';
 
 export const appConfig: ApplicationConfig = {
   providers: [

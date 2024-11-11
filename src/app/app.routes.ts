@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { WorkerGuard } from './core/guards/worker.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -113,6 +114,12 @@ export const routes: Routes = [
         canActivate: [WorkerGuard],
       },
     ],
+  },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./features/admin/admin.component').then((m) => m.AdminComponent),
+    canActivate: [AuthGuard, AdminGuard],
   },
   {
     path: '',

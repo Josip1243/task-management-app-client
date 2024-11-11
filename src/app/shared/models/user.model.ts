@@ -9,3 +9,11 @@ export interface RegisterUser {
   email: string;
   password: string;
 }
+
+export interface UserDTO {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  role: string;
+}

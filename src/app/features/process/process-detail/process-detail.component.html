@@ -1,1 +1,61 @@
-<p>process-detail works!</p>
+<div class="container">
+  <mat-card class="process-card">
+    <mat-card-header>
+      <mat-card-title>{{ process.name }}</mat-card-title>
+      <mat-card-subtitle>Process ID: {{ process.id }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ process.description }}</p>
+      <p><strong>Start Date:</strong> {{ process.startDate | date }}</p>
+      <p><strong>End Date:</strong> {{ process.endDate | date }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <h3>Tasks</h3>
+  <mat-table [dataSource]="tasks" class="task-table mat-elevation-z8">
+    <!-- Task Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Task Name </mat-header-cell>
+      <mat-cell *matCellDef="let task"> {{ task.name }} </mat-cell>
+    </ng-container>
+
+    <!-- Task Description Column -->
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+      <mat-cell *matCellDef="let task"> {{ task.description }} </mat-cell>
+    </ng-container>
+
+    <!-- Task Status Column -->
+    <ng-container matColumnDef="isCompleted">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let task">
+        <mat-icon *ngIf="task.isCompleted" color="primary"
+          >check_circle</mat-icon
+        >
+        <mat-icon *ngIf="!task.isCompleted" color="warn">pending</mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Due Date Column -->
+    <ng-container matColumnDef="dueDate">
+      <mat-header-cell *matHeaderCellDef> Due Date </mat-header-cell>
+      <mat-cell *matCellDef="let task"> {{ task.dueDate | date }} </mat-cell>
+    </ng-container>
+
+    <!-- Assigned Users Column -->
+    <ng-container matColumnDef="assignedUsers">
+      <mat-header-cell *matHeaderCellDef> Assigned Users </mat-header-cell>
+      <mat-cell *matCellDef="let task">
+        {{ task.assignedUserIds.join(", ") }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      class="clickable-row"
+      (click)="showTaskDetail(row.id)"
+    >
+    </mat-row>
+  </mat-table>
+</div>
