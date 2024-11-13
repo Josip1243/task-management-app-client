@@ -11,4 +11,5 @@ export interface ProcessDTO {
   description: string;
   startDate: Date;
   endDate: Date;
+  memberEmails: string[];
 }

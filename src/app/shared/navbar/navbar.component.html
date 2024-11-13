@@ -24,10 +24,10 @@
 </nav>
 
 <mat-menu #userMenu="matMenu" xPosition="before">
-  <button mat-menu-item (click)="redirectTo('process')">
+  <button mat-menu-item (click)="redirectTo('process/list')">
     Process<mat-icon>build_circle</mat-icon>
   </button>
-  <button mat-menu-item (click)="redirectTo('task')">
+  <button mat-menu-item (click)="redirectTo('task/list')">
     Task<mat-icon>task</mat-icon>
   </button>
   <button *ngIf="isAdmin" mat-menu-item (click)="redirectTo('admin')">

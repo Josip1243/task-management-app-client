@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProcessService } from '../../../core/services/process.service';
 import { TaskService } from '../../../core/services/task.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Process } from '../../../shared/models/process.model';
 import { Task } from '../../../shared/models/task.model';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,14 +24,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './process-detail.component.scss',
 })
 export class ProcessDetailComponent implements OnInit {
-  process: Process = {
-    id: 1,
-    name: 'Project Launch',
-    description:
-      'This process includes all steps needed for launching the project.',
-    startDate: new Date('2024-11-01'),
-    endDate: new Date('2025-01-15'),
-  };
+  process!: Process;
 
   tasks: Task[] = [
     {
@@ -87,10 +80,29 @@ export class ProcessDetailComponent implements OnInit {
   constructor(
     private processService: ProcessService,
     private taskService: TaskService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      let processId = Number(params.get('id')!);
+      if (processId) {
+        this.loadProcessData(processId);
+      }
+    });
+  }
+
+  loadProcessData(id: number): void {
+    this.processService.getProcess(id).subscribe({
+      next: (process: Process) => {
+        this.process = process;
+      },
+      error: (err) => {
+        console.error('Error fetching process data', err);
+      },
+    });
+  }
 
   showTaskDetail(id: number) {
     this.router.navigate([`task/detail/${id}`]);
