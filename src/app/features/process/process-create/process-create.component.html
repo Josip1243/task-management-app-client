@@ -1,4 +1,5 @@
 <form [formGroup]="processForm" (ngSubmit)="onSubmit()">
+  <h2>Create New Process:</h2>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
     <input matInput formControlName="name" required />
@@ -54,6 +55,6 @@
     type="submit"
     [disabled]="processForm.invalid"
   >
-    Submit
+    Create
   </button>
 </form>

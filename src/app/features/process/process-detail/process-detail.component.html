@@ -1,18 +1,22 @@
 <div class="container">
   <mat-card class="process-card">
     <mat-card-header>
-      <mat-card-title>{{ process.name }}</mat-card-title>
-      <mat-card-subtitle>Process ID: {{ process.id }}</mat-card-subtitle>
+      <mat-card-title>{{ process?.name }}</mat-card-title>
+      <mat-card-subtitle>Process ID: {{ process?.id }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <p>{{ process.description }}</p>
-      <p><strong>Start Date:</strong> {{ process.startDate | date }}</p>
-      <p><strong>End Date:</strong> {{ process.endDate | date }}</p>
+      <p>{{ process?.description }}</p>
+      <p><strong>Start Date:</strong> {{ process?.startDate | date }}</p>
+      <p><strong>End Date:</strong> {{ process?.endDate | date }}</p>
     </mat-card-content>
   </mat-card>
 
-  <h3>Tasks</h3>
-  <mat-table [dataSource]="tasks" class="task-table mat-elevation-z8">
+  <div class="tasksTitleContainer">
+    <h3>Tasks:</h3>
+    <mat-icon color="primary" (click)="addTaskButtonClick()">add_box</mat-icon>
+  </div>
+
+  <mat-table #table [dataSource]="tasks" class="task-table mat-elevation-z8">
     <!-- Task Name Column -->
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Task Name </mat-header-cell>
@@ -47,6 +51,26 @@
       <mat-header-cell *matHeaderCellDef> Assigned Users </mat-header-cell>
       <mat-cell *matCellDef="let task">
         {{ task.assignedUserIds.join(", ") }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="editTask(element.id); $event.stopPropagation()"
+        >
+          <mat-icon>edit</mat-icon> Edit
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="deleteTask(element.id); $event.stopPropagation()"
+        >
+          <mat-icon>delete</mat-icon> Delete
+        </button>
       </mat-cell>
     </ng-container>
 

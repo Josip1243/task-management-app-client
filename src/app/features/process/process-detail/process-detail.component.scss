@@ -8,6 +8,26 @@
   padding: 20px;
 }
 
+.tasksTitleContainer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+  h3 {
+    margin-right: 10px;
+  }
+
+  mat-icon:hover {
+    border-color: black;
+    color: #004891;
+    cursor: pointer;
+  }
+
+  mat-icon:active {
+    color: #002850;
+  }
+}
+
 .task-table {
   width: 100%;
   margin-top: 20px;
@@ -16,6 +36,8 @@
 mat-header-cell,
 mat-cell {
   padding: 8px;
+  justify-content: center;
+  align-items: center;
 }
 
 mat-icon {

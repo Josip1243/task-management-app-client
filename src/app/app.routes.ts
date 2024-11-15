@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
-import { WorkerGuard } from './core/guards/worker.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
@@ -58,7 +57,6 @@ export const routes: Routes = [
           import(
             './features/process/process-create/process-create.component'
           ).then((m) => m.ProcessCreateComponent),
-        canActivate: [WorkerGuard],
       },
       {
         path: 'detail/:id',
@@ -73,7 +71,6 @@ export const routes: Routes = [
           import('./features/process/process-edit/process-edit.component').then(
             (m) => m.ProcessEditComponent
           ),
-        canActivate: [WorkerGuard],
       },
     ],
   },
@@ -91,12 +88,11 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'create',
+        path: 'create/:processId',
         loadComponent: () =>
           import('./features/task/task-create/task-create.component').then(
             (m) => m.TaskCreateComponent
           ),
-        canActivate: [WorkerGuard],
       },
       {
         path: 'detail/:id',
@@ -111,7 +107,6 @@ export const routes: Routes = [
           import('./features/task/task-edit/task-edit.component').then(
             (m) => m.TaskEditComponent
           ),
-        canActivate: [WorkerGuard],
       },
     ],
   },

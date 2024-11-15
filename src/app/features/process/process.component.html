@@ -1,7 +1,9 @@
 <div class="container">
   <ul class="links">
     <li><a routerLink="list">List</a></li>
-    <li><a routerLink="create" *ngIf="isOwner">Create</a></li>
+    <li><a routerLink="create">Create</a></li>
   </ul>
 </div>
-<router-outlet></router-outlet>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

@@ -2,6 +2,14 @@ table {
   width: 100%;
 }
 
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .mat-mdc-row .mat-mdc-cell {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;

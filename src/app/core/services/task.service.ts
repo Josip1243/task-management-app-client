@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Task, TaskDTO } from '../../shared/models/task.model';
+import {
+  CreateTaskDTO,
+  EditTaskDTO,
+  Task,
+  TaskDTO,
+} from '../../shared/models/task.model';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -55,49 +60,29 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
-  public getTask(id: number): Observable<Task> {
-    //return this.http.get<Task>(this.baseUrl + `api/tasks/${id}`);
-
-    return of(this.mockData.find((p) => p.id == id)!);
+  public getTask(id: number): Observable<TaskDTO> {
+    return this.http.get<TaskDTO>(this.baseUrl + `api/tasks/gettask/${id}`);
   }
 
   public getTasks(): Observable<Task[]> {
-    return of(this.mockData);
+    return this.http.get<Task[]>(this.baseUrl + `api/tasks/user-tasks`);
   }
 
-  public getProjectTasks(): Observable<Task[]> {
-    //return this.http.get<Task[]>(this.baseUrl + 'api/tasks');
-
-    return of(this.mockData);
+  public getProjectTasks(projectId: number): Observable<Task[]> {
+    return this.http.get<Task[]>(
+      this.baseUrl + `api/tasks/project/${projectId}`
+    );
   }
 
-  public createTask(task: TaskDTO): Observable<Task> {
-    //return this.http.post(this.baseUrl + 'api/tasks/create', task);
-
-    this.counter++;
-    let newTask = {
-      id: this.counter,
-      name: task.name,
-      description: task.description,
-      isCompleted: false,
-      dueDate: new Date('2024-11-25'),
-      assignedUserIds: ['user1', 'user3'],
-    };
-
-    return of(newTask);
+  public createTask(task: CreateTaskDTO) {
+    return this.http.post(this.baseUrl + 'api/tasks/create', task);
   }
 
-  public updateTask(id: number, task: TaskDTO): Observable<Task> {
-    //return this.http.put(this.baseUrl + `api/tasks/update/${id}`, task);
-
-    let temp = this.mockData.find((t) => t.id !== id);
-    console.log(this.mockData);
-    return of();
+  public updateTask(id: number, task: EditTaskDTO) {
+    return this.http.put(this.baseUrl + `api/tasks/update/${id}`, task);
   }
 
   public deleteTask(id: number) {
-    //return this.http.delete(this.baseUrl + `api/tasks/update/${id}`);
-
-    return of();
+    return this.http.delete(this.baseUrl + `api/tasks/delete/${id}`);
   }
 }

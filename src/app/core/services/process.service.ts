@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Process, ProcessDTO } from '../../shared/models/process.model';
 import { delay, Observable, of } from 'rxjs';
+import { UserDTO } from '../../shared/models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,5 +35,9 @@ export class ProcessService {
 
   public deleteProcess(id: number) {
     return this.http.delete(this.baseUrl + `api/project/delete/${id}`);
+  }
+
+  public getProcessUsers(id: number) {
+    return this.http.get<UserDTO[]>(this.baseUrl + `api/admin/users`);
   }
 }

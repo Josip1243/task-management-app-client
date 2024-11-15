@@ -10,6 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { Task } from '../../../shared/models/task.model';
 import { TaskService } from '../../../core/services/task.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-task-list',
@@ -19,22 +20,30 @@ import { TaskService } from '../../../core/services/task.service';
   styleUrl: './task-list.component.scss',
 })
 export class TaskListComponent {
+  isAdmin: boolean = false;
   displayedColumns: string[] = [
     'name',
     'description',
     'dueDate',
     'isCompleted',
-    'actions',
   ];
   dataSource = new MatTableDataSource<Task>();
   @ViewChild(MatTable) table!: MatTable<Task>;
 
-  constructor(private taskService: TaskService, private router: Router) {}
+  constructor(
+    private taskService: TaskService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.taskService.getTasks().subscribe((data: Task[]) => {
       this.dataSource.data = data;
     });
+    this.isAdmin = this.authService.isAdmin();
+    if (this.isAdmin) {
+      this.displayedColumns.push('actions');
+    }
   }
 
   showTaskDetails(id: number) {

@@ -22,6 +22,8 @@ export class AuthService {
 
   private logged = new BehaviorSubject<boolean>(false);
   isLogged = this.logged.asObservable();
+  private admin = new BehaviorSubject<boolean>(false);
+  isAdminObservable = this.admin.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -41,23 +43,16 @@ export class AuthService {
     localStorage.clear();
     this.logged.next(false);
     this.router.navigate([page]);
+    window.location.reload();
   }
 
   checkStatus() {
     if (localStorage.getItem('token')) {
+      this.isAdmin();
       this.logged.next(true);
     } else {
       this.logged.next(false);
       return;
-    }
-
-    if (this.getAccessToken()) {
-      let token = this.decodedToken();
-      // let username =
-      //   token['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
-      // let userId = Number(token['Id']);
-      // this.usernameBehaviorSubject.next(username);
-      // this.userIdBehaviorSubject.next(userId);
     }
   }
 
@@ -75,39 +70,11 @@ export class AuthService {
     }
 
     let role = localStorage.getItem('role');
-    if (role === 'admin') {
+    if (role === 'Admin') {
+      this.admin.next(true);
       return true;
     }
-    return false;
-  }
-
-  isOwner() {
-    // For developing only
-    return true;
-
-    if (!this.roleExists()) {
-      return false;
-    }
-
-    let role = localStorage.getItem('role');
-    if (role === 'owner') {
-      return true;
-    }
-    return false;
-  }
-
-  isWorker() {
-    // For developing only
-    return true;
-
-    if (!this.roleExists()) {
-      return false;
-    }
-
-    let role = localStorage.getItem('role');
-    if (role === 'worker') {
-      return true;
-    }
+    this.admin.next(false);
     return false;
   }
 
@@ -120,34 +87,17 @@ export class AuthService {
 
   storeAccessToken(tokenValue: string) {
     localStorage.setItem('token', tokenValue);
+    let token = this.getDecodedToken();
+    let role =
+      token['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    localStorage.setItem('role', role);
   }
-  storeRefreshToken(tokenValue: string) {
-    localStorage.setItem('refreshToken', tokenValue);
-  }
-
   getAccessToken() {
     return localStorage.getItem('token');
   }
-  getRefreshToken() {
-    return localStorage.getItem('refreshToken');
-  }
-
-  decodedToken() {
+  getDecodedToken() {
     const jwtHelper = new JwtHelperService();
     const token = this.getAccessToken()!;
     return jwtHelper.decodeToken(token);
-  }
-
-  public refreshToken(tokenDTO: TokenDTO): Observable<TokenDTO> {
-    return this.http.post<TokenDTO>(
-      this.baseUrl + 'api/auth/refresh-token',
-      tokenDTO
-    );
-  }
-
-  public getMe(): Observable<string> {
-    return this.http.get(this.baseUrl + 'api/auth/GetMe', {
-      responseType: 'text',
-    });
   }
 }

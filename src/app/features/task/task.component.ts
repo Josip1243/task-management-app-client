@@ -14,7 +14,5 @@ export class TaskComponent implements OnInit {
   isOwner: boolean = false;
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.isOwner = this.authService.isOwner();
-  }
+  ngOnInit(): void {}
 }

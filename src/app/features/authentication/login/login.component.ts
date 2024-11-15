@@ -47,6 +47,7 @@ export class LoginComponent {
         next: (tokenDTO) => {
           this.loginForm.reset();
           this.authService.storeAccessToken(tokenDTO.token);
+          this.authService.isAdmin();
           this.router.navigateByUrl('home');
         },
         error: (error) => {

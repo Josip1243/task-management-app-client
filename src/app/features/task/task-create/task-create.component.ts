@@ -5,7 +5,11 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Task, TaskDTO } from '../../../shared/models/task.model';
+import {
+  CreateTaskDTO,
+  Task,
+  TaskDTO,
+} from '../../../shared/models/task.model';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,6 +22,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { TaskService } from '../../../core/services/task.service';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { UserDTO } from '../../../shared/models/user.model';
+import { ProcessService } from '../../../core/services/process.service';
 
 @Component({
   selector: 'app-task-create',
@@ -40,45 +47,58 @@ import { TaskService } from '../../../core/services/task.service';
   styleUrl: './task-create.component.scss',
 })
 export class TaskCreateComponent {
-  mockProjects = [
-    { id: 1, name: 'Project A' },
-    { id: 2, name: 'Project B' },
-    { id: 3, name: 'Project C' },
-  ];
-
-  mockUsers = [
-    { id: 'user1', name: 'Alice' },
-    { id: 'user2', name: 'Bob' },
-    { id: 'user3', name: 'Charlie' },
-  ];
-
   taskForm: FormGroup;
-  projects = this.mockProjects;
-  users = this.mockUsers;
+  processId!: number;
+  users!: UserDTO[];
 
-  constructor(private fb: FormBuilder, private taskService: TaskService) {
+  constructor(
+    private fb: FormBuilder,
+    private taskService: TaskService,
+    private processService: ProcessService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.taskForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       dueDate: ['', Validators.required],
       assignedUserIds: [[], Validators.required],
-      projectId: ['', Validators.required],
       isCompleted: [false],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      let processId = Number(params.get('processId')!);
+      if (processId) {
+        this.processId = processId;
+      }
+    });
+
+    this.processService.getProcessUsers(this.processId).subscribe({
+      next: (users: UserDTO[]) => {
+        this.users = users;
+      },
+      error: (err) => {
+        console.error('Error fetching project users', err);
+      },
+    });
+  }
 
   onSubmit(): void {
     if (this.taskForm.valid) {
-      const newTask: TaskDTO = {
+      const newTask: CreateTaskDTO = {
         name: this.taskForm.value.name,
         description: this.taskForm.value.description,
+        createdAt: new Date(),
         dueDate: this.taskForm.value.dueDate,
+        projectId: this.processId,
         assignedUserIds: this.taskForm.value.assignedUserIds,
       };
       this.taskService.createTask(newTask).subscribe({
-        next: (newTask) => {},
+        next: (newTask) => {
+          this.router.navigate([`process/detail/${this.processId}`]);
+        },
       });
       this.taskForm.reset();
     }

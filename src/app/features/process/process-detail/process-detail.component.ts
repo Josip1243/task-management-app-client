@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProcessService } from '../../../core/services/process.service';
 import { TaskService } from '../../../core/services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +7,11 @@ import { Task } from '../../../shared/models/task.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import {
+  MatTable,
+  MatTableDataSource,
+  MatTableModule,
+} from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -24,50 +28,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './process-detail.component.scss',
 })
 export class ProcessDetailComponent implements OnInit {
-  process!: Process;
-
-  tasks: Task[] = [
-    {
-      id: 1,
-      name: 'Design UI',
-      description: 'Create UI for the project',
-      isCompleted: false,
-      dueDate: new Date('2024-11-20'),
-      assignedUserIds: ['user1'],
-    },
-    {
-      id: 2,
-      name: 'Develop Backend',
-      description: 'Set up the server and database',
-      isCompleted: true,
-      dueDate: new Date('2024-12-05'),
-      assignedUserIds: ['user2', 'user3'],
-    },
-    {
-      id: 3,
-      name: 'Testing',
-      description: 'Test all functionalities',
-      isCompleted: false,
-      dueDate: new Date('2024-12-20'),
-      assignedUserIds: ['user4'],
-    },
-    {
-      id: 4,
-      name: 'Deploy',
-      description: 'Deploy the project to the production server',
-      isCompleted: false,
-      dueDate: new Date('2025-01-10'),
-      assignedUserIds: ['user5'],
-    },
-    {
-      id: 5,
-      name: 'QA Review',
-      description: 'Quality assurance and final checks',
-      isCompleted: false,
-      dueDate: new Date('2025-01-12'),
-      assignedUserIds: ['user6'],
-    },
-  ];
+  process?: Process;
+  tasks!: Task[];
+  dataSource = new MatTableDataSource<Task>();
+  @ViewChild(MatTable) table!: MatTable<Task>;
 
   displayedColumns: string[] = [
     'name',
@@ -75,6 +39,7 @@ export class ProcessDetailComponent implements OnInit {
     'isCompleted',
     'dueDate',
     'assignedUsers',
+    'actions',
   ];
 
   constructor(
@@ -102,9 +67,36 @@ export class ProcessDetailComponent implements OnInit {
         console.error('Error fetching process data', err);
       },
     });
+    this.taskService.getProjectTasks(id).subscribe({
+      next: (tasks: Task[]) => {
+        this.tasks = tasks;
+      },
+      error: (err) => {
+        console.error('Error fetching process tasks', err);
+      },
+    });
   }
 
   showTaskDetail(id: number) {
     this.router.navigate([`task/detail/${id}`]);
+  }
+
+  addTaskButtonClick() {
+    this.router.navigate([`task/create/${this.process?.id}`]);
+  }
+
+  editTask(id: number) {
+    this.router.navigate([`task/edit/${id}`]);
+  }
+
+  deleteTask(id: number) {
+    this.taskService.deleteTask(id).subscribe({
+      next: () => {
+        let temp = this.dataSource.data.filter((p) => p.id !== id);
+        this.dataSource.data = temp;
+        this.table.renderRows();
+        console.log('Deleted');
+      },
+    });
   }
 }
