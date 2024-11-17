@@ -1,3 +1,8 @@
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
 table {
   width: 100%;
 }
@@ -23,4 +28,21 @@ table {
 
 .mat-mdc-row:active .mat-mdc-cell {
   background-color: lightgray;
+}
+
+h2 {
+  font-weight: normal;
+  color: white;
+}
+
+.mat-mdc-table {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow: hidden;
+}
+
+mat-paginator {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  overflow: hidden;
 }

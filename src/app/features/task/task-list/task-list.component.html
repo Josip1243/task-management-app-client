@@ -1,59 +1,71 @@
-<h2>Your tasks:</h2>
-<table mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>No.</th>
-    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-  </ng-container>
+<div class="container">
+  <h2>Your tasks:</h2>
+  <div class="mat-elevation-z8 tableContainer">
+    <table mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-  </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
 
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef>Description</th>
-    <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-  </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
 
-  <ng-container matColumnDef="dueDate">
-    <th mat-header-cell *matHeaderCellDef>Due date</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.dueDate | date : "dd/MM/yyyy" }}
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="dueDate">
+        <th mat-header-cell *matHeaderCellDef>Due date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.dueDate | date : "dd/MM/yyyy" }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="isCompleted">
-    <th mat-header-cell *matHeaderCellDef>Status</th>
-    <td mat-cell *matCellDef="let task">
-      <mat-icon *ngIf="task.isCompleted" color="primary">check_circle</mat-icon>
-      <mat-icon *ngIf="!task.isCompleted" color="warn">pending</mat-icon>
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="isCompleted">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let task">
+          <mat-icon *ngIf="task.isCompleted" color="primary"
+            >check_circle</mat-icon
+          >
+          <mat-icon *ngIf="!task.isCompleted" color="warn">pending</mat-icon>
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Actions</th>
-    <td mat-cell *matCellDef="let element">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="editTask(element.id); $event.stopPropagation()"
-      >
-        <mat-icon>edit</mat-icon> Edit
-      </button>
-      <button
-        mat-raised-button
-        color="warn"
-        (click)="deleteTask(element.id); $event.stopPropagation()"
-      >
-        <mat-icon>delete</mat-icon> Delete
-      </button>
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="editTask(element.id); $event.stopPropagation()"
+          >
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="deleteTask(element.id); $event.stopPropagation()"
+          >
+            <mat-icon>delete</mat-icon> Delete
+          </button>
+        </td>
+      </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr
-    mat-row
-    (click)="showTaskDetails(row.id)"
-    *matRowDef="let row; columns: displayedColumns"
-  ></tr>
-</table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        (click)="showTaskDetails(row.id)"
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</div>

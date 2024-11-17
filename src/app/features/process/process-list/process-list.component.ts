@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
   MatTable,
   MatTableDataSource,
@@ -10,15 +10,22 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-process-list',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatPaginatorModule,
+  ],
   templateUrl: './process-list.component.html',
   styleUrl: './process-list.component.scss',
 })
-export class ProcessListComponent implements OnInit {
+export class ProcessListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'name',
     'description',
@@ -28,6 +35,7 @@ export class ProcessListComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<Process>();
   @ViewChild(MatTable) table!: MatTable<Process>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private processService: ProcessService, private router: Router) {}
 
@@ -35,6 +43,10 @@ export class ProcessListComponent implements OnInit {
     this.processService.getProcesses().subscribe((data: Process[]) => {
       this.dataSource.data = data;
     });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   showProcessDetails(id: number) {

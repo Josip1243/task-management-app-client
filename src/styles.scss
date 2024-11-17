@@ -7,5 +7,29 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: rgb(213 235 235);
+  //background-color: rgb(213 235 235);
+  background: linear-gradient(to bottom right, rgb(12 33 75), rgb(147 109 109));
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
+  margin: 0;
+}
+
+// Snackbar
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: green;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+  &.error-snackbar {
+    --mdc-snackbar-container-color: red;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+  &.info-snackbar {
+    --mdc-snackbar-container-color: #009688;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
 }

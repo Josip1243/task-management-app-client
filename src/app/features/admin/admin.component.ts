@@ -1,12 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { UserDTO } from '../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import {
+  MatTable,
+  MatTableDataSource,
+  MatTableModule,
+} from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { AdminService } from '../../core/services/admin.service';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { Task } from '../../shared/models/task.model';
 
 @Component({
   selector: 'app-admin',
@@ -18,11 +24,12 @@ import { AdminService } from '../../core/services/admin.service';
     MatButtonModule,
     MatMenuModule,
     MatCardModule,
+    MatPaginatorModule,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'firstName',
     'lastName',
@@ -32,19 +39,25 @@ export class AdminComponent implements OnInit {
     'actions',
   ];
   roles: string[] = ['Admin', 'User'];
-  users?: UserDTO[];
+  dataSource = new MatTableDataSource<UserDTO>();
+  @ViewChild(MatTable) table!: MatTable<Task>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
     this.adminService.getUsers().subscribe({
       next: (users: UserDTO[]) => {
-        this.users = users;
+        this.dataSource.data = users;
       },
       error: (err) => {
         console.log('Error fetching users', err);
       },
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   // Method to change user role
@@ -81,7 +94,9 @@ export class AdminComponent implements OnInit {
     this.adminService.removeUser(user.email).subscribe({
       next: (deleted: boolean) => {
         if (deleted) {
-          this.users = this.users?.filter((u) => u.email != user.email);
+          this.dataSource.data = this.dataSource.data?.filter(
+            (u) => u.email != user.email
+          );
         }
       },
       error: (err) => {

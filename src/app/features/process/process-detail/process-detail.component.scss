@@ -4,7 +4,7 @@
 
 .process-card {
   max-width: 600px;
-  margin: 20px auto;
+  margin: 0px auto;
   padding: 20px;
 }
 
@@ -52,4 +52,10 @@ mat-icon {
 
 .mat-mdc-row:active .mat-mdc-cell {
   background-color: lightgray;
+}
+
+h2,
+h3 {
+  font-weight: normal;
+  color: white;
 }

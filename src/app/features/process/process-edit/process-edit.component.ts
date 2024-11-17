@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Process, ProcessDTO } from '../../../shared/models/process.model';
 import { ProcessService } from '../../../core/services/process.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-process-edit',
@@ -38,7 +39,8 @@ export class ProcessEditComponent implements OnInit {
     private fb: FormBuilder,
     private processService: ProcessService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackbarService
   ) {
     this.processForm = this.fb.group({
       name: ['', Validators.required],
@@ -78,7 +80,14 @@ export class ProcessEditComponent implements OnInit {
       const process: ProcessDTO = this.processForm.value;
       this.processService.updateProcess(this.processId, process).subscribe({
         next: () => {
-          this.router.navigate(['process/list']);
+          //this.router.navigate(['process/list']);
+          this.snackBarService.showSnackbar(
+            'Sucessfully saved changes!',
+            'success'
+          );
+        },
+        error: () => {
+          this.snackBarService.showSnackbar('Failed to save changes!', 'error');
         },
       });
     }

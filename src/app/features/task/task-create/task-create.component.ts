@@ -25,6 +25,7 @@ import { TaskService } from '../../../core/services/task.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UserDTO } from '../../../shared/models/user.model';
 import { ProcessService } from '../../../core/services/process.service';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-task-create',
@@ -56,7 +57,8 @@ export class TaskCreateComponent {
     private taskService: TaskService,
     private processService: ProcessService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackbarService
   ) {
     this.taskForm = this.fb.group({
       name: ['', Validators.required],
@@ -97,7 +99,17 @@ export class TaskCreateComponent {
       };
       this.taskService.createTask(newTask).subscribe({
         next: (newTask) => {
+          this.snackBarService.showSnackbar(
+            'Sucessfully created new Task!',
+            'success'
+          );
           this.router.navigate([`process/detail/${this.processId}`]);
+        },
+        error: () => {
+          this.snackBarService.showSnackbar(
+            'Failed to create new Task!',
+            'error'
+          );
         },
       });
       this.taskForm.reset();

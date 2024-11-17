@@ -22,8 +22,11 @@ export class ProcessService {
     return this.http.get<Process[]>(this.baseUrl + 'api/project/getprojects');
   }
 
-  public createProcess(process: ProcessDTO) {
-    return this.http.post(this.baseUrl + 'api/project/create', process);
+  public createProcess(process: ProcessDTO): Observable<Process> {
+    return this.http.post<Process>(
+      this.baseUrl + 'api/project/create',
+      process
+    );
   }
 
   public updateProcess(id: number, process: ProcessDTO): Observable<Process> {

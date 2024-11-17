@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { TaskService } from '../../../core/services/task.service';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-task-detail',
@@ -26,7 +27,8 @@ export class TaskDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private snackBarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -46,10 +48,24 @@ export class TaskDetailComponent {
       this.task.isCompleted = !this.task.isCompleted;
       this.taskService.updateTask(this.task.id, this.task).subscribe({
         next: () => {
-          console.log('AAAAAA');
+          if (this.task?.isCompleted) {
+            this.snackBarService.showSnackbar(
+              'Changed Task status to Completed',
+              'info'
+            );
+          } else {
+            this.snackBarService.showSnackbar(
+              'Changed Task status to Pending',
+              'info'
+            );
+          }
         },
         error: (err) => {
           console.error('Error updating task status', err);
+          this.snackBarService.showSnackbar(
+            'Failed to change Task status',
+            'error'
+          );
         },
       });
     }

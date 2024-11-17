@@ -1,7 +1,8 @@
-<mat-card class="admin-card" *ngIf="users">
+<div class="admin-card" *ngIf="dataSource.data">
   <h2>User Management</h2>
-  <mat-card-content>
-    <table mat-table [dataSource]="users" class="mat-elevation-z8">
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef>First Name</th>
         <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
@@ -52,5 +53,11 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-  </mat-card-content>
-</mat-card>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</div>

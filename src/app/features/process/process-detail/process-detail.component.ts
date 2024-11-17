@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ProcessService } from '../../../core/services/process.service';
 import { TaskService } from '../../../core/services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ import {
   MatTableModule,
 } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-process-detail',
@@ -23,15 +24,17 @@ import { CommonModule } from '@angular/common';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
+    MatPaginatorModule,
   ],
   templateUrl: './process-detail.component.html',
   styleUrl: './process-detail.component.scss',
 })
-export class ProcessDetailComponent implements OnInit {
+export class ProcessDetailComponent implements OnInit, AfterViewInit {
   process?: Process;
-  tasks!: Task[];
+  //tasks!: Task[];
   dataSource = new MatTableDataSource<Task>();
   @ViewChild(MatTable) table!: MatTable<Task>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns: string[] = [
     'name',
@@ -58,6 +61,11 @@ export class ProcessDetailComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    debugger;
+    this.dataSource.paginator = this.paginator;
+  }
+
   loadProcessData(id: number): void {
     this.processService.getProcess(id).subscribe({
       next: (process: Process) => {
@@ -69,7 +77,7 @@ export class ProcessDetailComponent implements OnInit {
     });
     this.taskService.getProjectTasks(id).subscribe({
       next: (tasks: Task[]) => {
-        this.tasks = tasks;
+        this.dataSource.data = tasks;
       },
       error: (err) => {
         console.error('Error fetching process tasks', err);

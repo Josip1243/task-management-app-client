@@ -1,17 +1,94 @@
-<div class="contact">
-    <h1>{{ title }}</h1>
-    <p>If you have any questions, feel free to reach out to us:</p>
-    
-    <h2>Contact Information</h2>
-    <p>Email: <a href="mailto:{{ email }}">{{ email }}</a></p>
-    <p>Phone: <a href="tel:{{ phone }}">{{ phone }}</a></p>
-    
-    <h2>Follow Us</h2>
-    <p>Stay connected with us on our social media channels.</p>
-    <ul class="social-media">
-      <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-      <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
-      <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
-    </ul>
-  </div>
-  
+<div class="contact-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Contact Us</h1>
+      <p class="hero-subtitle">
+        Have questions? We'd love to hear from you. Get in touch with us today!
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="contact-form-section">
+    <h2>Send Us a Message</h2>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Your Name" />
+        <mat-error *ngIf="contactForm.get('name')?.hasError('required')">
+          Name is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Your Email" />
+        <mat-error *ngIf="contactForm.get('email')?.hasError('email')">
+          Enter a valid email address.
+        </mat-error>
+        <mat-error *ngIf="contactForm.get('email')?.hasError('required')">
+          Email is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Message</mat-label>
+        <textarea
+          matInput
+          formControlName="message"
+          rows="5"
+          placeholder="Your Message"
+        ></textarea>
+        <mat-error *ngIf="contactForm.get('message')?.hasError('required')">
+          Message is required.
+        </mat-error>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="contactForm.invalid"
+      >
+        Send Message
+      </button>
+    </form>
+  </section>
+
+  <!-- Contact Information Section -->
+  <section class="contact-info">
+    <h2 class="title">Contact Information</h2>
+    <div class="info-grid">
+      <mat-card>
+        <mat-card-title>Address</mat-card-title>
+        <mat-card-content
+          >123 TaskMaster Lane, Suite 456, Cityville, Country</mat-card-content
+        >
+      </mat-card>
+      <mat-card>
+        <mat-card-title>Email</mat-card-title>
+        <mat-card-content>support&#64;taskmasterpro.com</mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>Phone</mat-card-title>
+        <mat-card-content>+123 456 7890</mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="map-section">
+    <h2 class="title">Our Location</h2>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509372!2d144.9537363153159!3d-37.81627974201796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577a6a9f01d4e0!2sVictoria%20Market!5e0!3m2!1sen!2sau!4v1614237459877!5m2!1sen!2sau"
+        width="100%"
+        height="300"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+      ></iframe>
+    </div>
+  </section>
+</div>

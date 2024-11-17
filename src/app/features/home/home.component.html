@@ -1,35 +1,45 @@
 <div class="home-container">
-  <!-- Hero Section with Image -->
+  <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-text">
+    <div class="hero-content">
       <h1>Welcome to TaskMaster Pro</h1>
-      <p class="animated-text">
-        Simplifying task and process management for teams of all sizes.
+      <p class="hero-subtitle">
+        Manage tasks and processes with ease. Empower your team for success!
       </p>
-    </div>
-    <div class="hero-image">
-      <img src="/assets/images/hero-image.jpg" alt="Task Management Image" />
+      <button
+        *ngIf="!isLoggedIn"
+        mat-raised-button
+        class="hero-btn"
+        (click)="navigateToRegister()"
+      >
+        Get Started Now
+      </button>
     </div>
   </section>
 
-  <!-- Description Section -->
-  <section class="description">
-    <h2>What We Do</h2>
-    <p>
-      Our platform allows you to efficiently manage processes, assign tasks to
-      workers, and track progress in real-time. Whether you're a worker looking
-      for your next task or an admin managing the team, TaskMaster Pro has got
-      you covered.
-    </p>
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Why Choose TaskMaster Pro?</h2>
+    <div class="features-grid">
+      <mat-card class="feature-card" *ngFor="let feature of features">
+        <mat-card-title>
+          <mat-icon>{{ feature.icon }}</mat-icon> {{ feature.title }}
+        </mat-card-title>
+        <mat-card-content>{{ feature.description }}</mat-card-content>
+      </mat-card>
+    </div>
   </section>
 
-  <!-- Call to Action Buttons -->
-  <div class="cta-buttons" *ngIf="!isLoggedIn">
-    <button matinput (click)="navigateToLogin()" class="btn primary">
-      Login
-    </button>
-    <button matinput (click)="navigateToRegister()" class="btn secondary">
-      Register
-    </button>
-  </div>
+  <!-- Call to Action -->
+  <section class="cta-section" *ngIf="!isLoggedIn">
+    <h3>Join the TaskMaster Community</h3>
+    <div class="cta-buttons">
+      <button mat-flat-button color="primary" (click)="navigateToLogin()">
+        Login
+      </button>
+      <button mat-flat-button color="accent" (click)="navigateToRegister()">
+        Register
+      </button>
+    </div>
+  </section>
 </div>

@@ -1,26 +1,123 @@
-.contact {
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(
+      to bottom right,
+      rgb(97 184 241),
+      rgb(231 245 255)
+    );
+    text-align: center;
+    padding: 80px 20px;
+    border-radius: 20px;
+
+    .hero-content {
+      max-width: 800px;
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+      }
+    }
+  }
+
+  /* Contact Form Section */
+  .contact-form-section {
+    margin: 50px 0;
+    width: 100%;
+    max-width: 800px;
     padding: 20px;
-    h1 {
-      color: #2c3e50;
-      font-size: 2.5rem;
+    background-color: white;
+    border-radius: 20px;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
     }
-    p {
-      font-size: 1.2rem;
-      line-height: 1.5;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .full-width {
+        width: 100%;
+      }
+
+      button {
+        align-self: flex-start;
+        padding: 10px 20px;
+      }
     }
-    .social-media {
-      list-style-type: none;
-      padding: 0;
-      li {
-        margin-top: 10px;
-        a {
-          color: #2980b9;
-          text-decoration: none;
-          &:hover {
-            text-decoration: underline;
-          }
+  }
+
+  /* Contact Information Section */
+  .contact-info {
+    margin: 50px 0;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+
+      mat-card {
+        padding: 15px;
+
+        mat-card-title {
+          font-size: 1.2rem;
+          font-weight: bold;
+        }
+
+        mat-card-content {
+          font-size: 1rem;
+          margin-top: 10px;
         }
       }
     }
   }
-  
+
+  /* Map Section */
+  .map-section {
+    margin: 50px 0;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .map-container {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.title {
+  color: lightgrey;
+}

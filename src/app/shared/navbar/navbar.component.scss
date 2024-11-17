@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #333;
+  //background-color: rgb(18 70 81 / 76%);
   padding: 20px 20px;
   box-sizing: border-box;
   margin-bottom: 10px;
@@ -38,7 +38,7 @@
         transition: color 0.3s;
 
         &:hover {
-          color: #007bff;
+          color: rgb(97, 184, 241);
         }
       }
     }
@@ -46,6 +46,6 @@
 }
 
 .menuButton {
-  background: none;
-  color: white;
+  background: transparent !important;
+  color: white !important;
 }

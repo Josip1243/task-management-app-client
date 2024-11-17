@@ -51,10 +51,11 @@ export class LoginComponent {
           this.router.navigateByUrl('home');
         },
         error: (error) => {
+          debugger;
           if (error.status === 401) {
-            this.errorMessage = error.message;
+            this.errorMessage = 'Wrong username or password!';
           } else {
-            this.errorMessage = 'An unexpected error occurred';
+            this.errorMessage = 'Wrong username or password!';
           }
           console.error('Login failed:', this.errorMessage);
         },

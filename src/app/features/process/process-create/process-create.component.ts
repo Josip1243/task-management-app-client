@@ -14,6 +14,7 @@ import { ProcessDTO } from '../../../shared/models/process.model';
 import { CommonModule } from '@angular/common';
 import { ProcessService } from '../../../core/services/process.service';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-process-create',
@@ -36,7 +37,8 @@ export class ProcessCreateComponent {
   constructor(
     private fb: FormBuilder,
     private processService: ProcessService,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackbarService
   ) {
     this.processForm = this.fb.group({
       name: ['', Validators.required],
@@ -51,7 +53,12 @@ export class ProcessCreateComponent {
       const process: ProcessDTO = this.processForm.value;
       this.processService.createProcess(process).subscribe({
         next: (proc) => {
-          this.router.navigate(['process/list']);
+          debugger;
+          this.snackBarService.showSnackbar(
+            'Sucessfully created Process!',
+            'success'
+          );
+          this.router.navigate([`process/detail/${proc.id}`]);
         },
       });
     }

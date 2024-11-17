@@ -1,32 +1,37 @@
 .login-container {
-    max-width: 400px;
-    margin: 0 auto;
-  
-    .form-group {
-      margin-bottom: 1rem;
-    }
+  max-width: 400px;
+  margin: 0 auto;
 
-    mat-form-field {
-        width: 100%;
-    }
-  
-    .error {
-      color: red;
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-    }
-  
-    button {
-      width: 100%;
-      padding: 0.5rem;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-  
-      &:disabled {
-        background-color: gray;
-        cursor: not-allowed;
-      }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: gray;
+      cursor: not-allowed;
     }
   }
+}
+
+h1 {
+  color: white;
+  font-weight: normal;
+}

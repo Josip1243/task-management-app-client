@@ -27,6 +27,7 @@ import {
   EditTaskDTO,
 } from '../../../shared/models/task.model';
 import { AdminService } from '../../../core/services/admin.service';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-task-edit',
@@ -60,7 +61,8 @@ export class TaskEditComponent implements OnInit {
     private taskService: TaskService,
     private adminService: AdminService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackbarService
   ) {
     this.taskForm = this.fb.group({
       name: ['', Validators.required],
@@ -110,7 +112,14 @@ export class TaskEditComponent implements OnInit {
       const task: EditTaskDTO = this.taskForm.value;
       this.taskService.updateTask(this.task.id, task).subscribe({
         next: () => {
-          this.router.navigate(['task/list']);
+          //this.router.navigate(['task/list']);
+          this.snackBarService.showSnackbar(
+            'Sucessfully updated Task!',
+            'success'
+          );
+        },
+        error: () => {
+          this.snackBarService.showSnackbar('Failed to update Task!', 'error');
         },
       });
     }

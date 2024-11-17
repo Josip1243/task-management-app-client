@@ -16,17 +16,24 @@
       font-size: 1.1rem;
       transition: color 0.3s;
       padding: 10px;
-      background-color: #a8c9cb;
+      background-color: white;
       box-shadow: 1px 1px 3px black;
       border-radius: 5px;
 
       &:hover {
-        color: white;
-        background-color: #8ba4a5;
+        background: linear-gradient(
+          to bottom right,
+          rgb(97, 184, 241),
+          rgb(231, 245, 255)
+        );
       }
 
       &:active {
-        background-color: #576869;
+        background: linear-gradient(
+          to bottom right,
+          rgb(47, 162, 238),
+          rgb(182, 223, 252)
+        );
       }
     }
     padding: 10px;
