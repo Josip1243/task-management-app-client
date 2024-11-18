@@ -13,11 +13,15 @@ import { MatIconModule } from '@angular/material/icon';
 export class AboutUsComponent {
   team = [
     {
-      name: 'Josip Radman',
+      name: 'Ivan Matic',
       role: 'CEO & Founder',
-      image: '/assets/images/josip.jpg',
+      image: '/assets/images/person.jpg',
     },
-    { name: 'Ivan Matic', role: 'CTO', image: '/assets/images/ivan.jpg' },
+    {
+      name: 'Josip Radman',
+      role: 'CTO & Founder',
+      image: '/assets/images/person.jpg',
+    },
   ];
   values = [
     {
